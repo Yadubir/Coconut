@@ -22,6 +22,7 @@ app.use('/api/auth', login);
 
 
 const PORT = process.env.PORT || 3000;
+app.use(express.json()); // parse incoming req.body
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
