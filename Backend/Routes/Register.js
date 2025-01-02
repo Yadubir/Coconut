@@ -30,14 +30,14 @@ router.post('/register', async (req, res) => {
         });
 
         await newUser.save();
-
+      
+      
         //jwt token 
         const webtoken = generateToken(res, newUser._id);
         console.log({webtoken});
 
         res.status(200).json({success: true, message: 'User registered successfully'});
-        
-        console.log(`User registered with username: ${newUser.username} and email: ${newUser.email}`);
+
 
     } catch (error) {
         res.status(500).json({success: false, error: error.message});
