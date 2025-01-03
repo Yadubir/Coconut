@@ -13,9 +13,21 @@ router.post('/login', async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
+
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        res.status(200).json({ token });
+
+        const webtoken = generateToken(res, user._id);
+        console.log({webtoken});
+        res.status(200).json({success: true, message: 'User logged in  successfully'});
+        // updating user last login
+        user.lastLogin = Date.now();
+        await user.save();
+        
         const webtoken = generateToken(res, user._id);
         console.log({webtoken});
         res.status(200).json({success: true, message: 'User loged in  successfully'});
+      
         console.log(`User logged in with email: ${user.email}`);
     } catch (error) {
         res.status(500).json({ error: error.message });
