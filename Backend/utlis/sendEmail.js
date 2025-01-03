@@ -5,8 +5,8 @@ const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   secure: true, // Set to true if using SSL (465), otherwise use false for TLS (587)
   auth: {
-    user: "iam.riri18@gmail.com", // Store the email in .env file
-    pass: "cpfhfzafpyxvqsvq", // Store the password in .env file
+    user: process.env.EMAIL, // Store the email in .env file
+    pass: process.env.EMAILAUTH_PASSWORD, // Store the password in .env file
   },
 });
 
@@ -18,7 +18,7 @@ async function sendEmail(to, text) {
     }
 
     const info = await transporter.sendMail({
-      from: "iam.riri18@gmail.com", // sender address (use environment variable)
+      from: process.env.EMAIL, // sender address (use environment variable)
       to, // recipient address (pass as argument)
       subject: "Hello", // Subject line
       text, // plain text body
