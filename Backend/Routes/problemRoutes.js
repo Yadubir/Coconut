@@ -1,12 +1,12 @@
 const express = require("express");
-const Problem = require("../models/Problem");
+const Problem = require("../Models/Problem");
 const { protect } = require("../Middlewares/authMiddleware");
 
 const router = express.Router();
 
 // @desc    Create a new problem
 // @route   POST /api/problems
-router.post("/", async (req, res) => {
+router.post("/", protect, async (req, res) => {
   const { title, description, inputFormat, outputFormat, testCases, difficulty } = req.body;
 
   try {
