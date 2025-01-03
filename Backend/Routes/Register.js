@@ -6,7 +6,6 @@ const router = express.Router();
 
 const generateToken = require('../utlis/generateToken');
 const sendEmail = require('../utlis/sendEmail');
-const generateToken = require('../utlis/generateToken');
 
 router.post('/register', async (req, res) => {
     const {username, email, password} = req.body;
@@ -35,8 +34,8 @@ router.post('/register', async (req, res) => {
 
         await newUser.save();
 
-        res.status(200).json({message: 'User registered successfully'});
-        console.log(`User registered with username: ${newUser.username} and email: ${newUser.email}`);
+        // res.status(200).json({message: 'User registered successfully'});
+        // console.log(`User registered with username: ${newUser.username} and email: ${newUser.email}`);
       
       
         //jwt token 
