@@ -15,8 +15,25 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+<<<<<<< Updated upstream
     }
 });
+=======
+    },
+    lastLogin:{
+        type: Date,
+        default: Date.now
+    },
+    isVerified:{
+        type: Boolean,
+        default:false
+    },
+    resetPasswordToken: String, 
+    resetPasswordExpiresAt: Date, 
+    verificationToken: String, 
+    verificationTokenExpiresAt: Date,
+}, {timestamps :true});
+>>>>>>> Stashed changes
 
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
