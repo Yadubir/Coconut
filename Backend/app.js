@@ -8,6 +8,7 @@ const register = require('./Routes/Register');
 const login = require('./Routes/Login');
 const problemRoutes = require('./Routes/problemRoutes');
 const logout = require('./Routes/Logout');
+const verify = require('./Routes/VerifyEmail')
 
 
 dotenv.config();
@@ -28,6 +29,7 @@ app.use('/api/auth', register);
 app.use('/api/auth', login);
 app.use('/api/problems', problemRoutes);
 app.use('/api/auth', logout);
+app.use('/api/auth', verify);
 
 
 const PORT = process.env.PORT || 3000;
