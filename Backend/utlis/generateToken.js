@@ -4,7 +4,7 @@ const User = require('../Models/User');
 const generateToken = (res, userId) => {
   const token = jwt.sign({userId}, process.env.JWT_SECRET, { expiresIn: '15d', 
   });
-  res.cookie('jwt', token, {
+  res.cookie('token', token, {
     httpOnly: true, // cookie cannot be accessed by client js
     secure: process.env.NODE_ENV === 'production', // cookie only works in https
     sameSite: 'strict', // csrf
