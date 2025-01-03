@@ -15,7 +15,11 @@ router.post('/login', async (req, res) => {
 
         const webtoken = generateToken(res, user._id);
         console.log({webtoken});
-        res.status(200).json({success: true, message: 'User loged in  successfully'});
+        res.status(200).json({success: true, message: 'User logged in  successfully'});
+        // updating user last login
+        user.lastLogin = Date.now();
+        await user.save();
+      
         console.log(`User logged in with email: ${user.email}`);
     } catch (error) {
         res.status(500).json({ error: error.message });
