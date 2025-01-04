@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
 });
 
 // Async function to send an email
-async function sendEmail(to, text) {
+async function sendEmail(to, html) {
   try {
     if (!to) {
       throw new Error("Recipient email is required");
@@ -21,7 +21,7 @@ async function sendEmail(to, text) {
       from: process.env.EMAIL, // sender address (use environment variable)
       to, // recipient address (pass as argument)
       subject: "Hello", // Subject line
-      text, // plain text body
+      html, // plain text body
       // html: "<b>Welcome to Coconut! </b>", // html body
     });
 

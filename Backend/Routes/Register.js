@@ -1,6 +1,8 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
+const path = require('path');
 const User = require('../Models/User');
 const router = express.Router();
 
@@ -46,9 +48,13 @@ router.post('/register', async (req, res) => {
         // sending welcome email
         try {
         
-            const sentmsg = `Hi \n Welcome to Coconut! \n Your verification code is ${verificationToken}`;//not visible in email!!
-            console.log(sentmsg);
-            await sendEmail(email, sentmsg ); 
+            // const sentmsg = `Hi \n Welcome to Coconut! \n Your verification code is ${verificationToken}`;//not visible in email!!
+            // console.log(sentmsg);
+            let htmlTemplate = fs.readFileSync(path.join(__dirname, '../Email_Templates/welcomeOTP.html'), 'utf-8');
+            htmlTemplate = htmlTemplate.replace('{{name}}', username);
+            htmlTemplate = htmlTemplate.replace('{{name}}', username);
+            htmlTemplate = htmlTemplate.replace('{{verificationToken}}', verificationToken);
+            await sendEmail(email, htmlTemplate ); 
             console.log('Verification function running..');
         } catch (emailError) {
             console.error('Error sending email:', emailError.message);

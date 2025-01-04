@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="x-apple-disable-message-reformatting" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Welcome to Coconut</title>
+  <style type="text/css" rel="stylesheet" media="all">
+    @import url("https://fonts.googleapis.com/css?family=Nunito+Sans:400,700&display=swap");
+
+    body {
+      width: 100% !important;
+      height: 100%;
+      margin: 0;
+      font-family: "Nunito Sans", Helvetica, Arial, sans-serif;
+      background-color: #F2F4F6;
+      color: #51545E;
+    }
+
+    h1 {
+      color: #333333;
+      font-size: 22px;
+      font-weight: bold;
+      text-align: left;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.625;
+    }
+
+    .email-wrapper {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: #F2F4F6;
+    }
+
+    .email-content {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    .email-body_inner {
+      width: 570px;
+      margin: 0 auto;
+      padding: 0;
+      background-color: #FFFFFF;
+    }
+
+    .content-cell {
+      padding: 45px;
+    }
+
+    .email-footer {
+      width: 570px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .body-action {
+      width: 100%;
+      margin: 30px auto;
+      padding: 0;
+      text-align: center;
+    }
+
+    .button {
+      background-color: #3869D4;
+      border-radius: 3px;
+      display: inline-block;
+      color: #FFF;
+      text-decoration: none;
+      padding: 10px 20px;
+      box-shadow: 0 2px 3px rgba(0, 0, 0, 0.16);
+    }
+
+    @media only screen and (max-width: 600px) {
+      .email-body_inner,
+      .email-footer {
+        width: 100% !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  
+  
+  <table class="email-wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+    <tr>
+      <td align="left">
+        <table class="email-content" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+          <tr>
+            <td class="email-body" width="570" cellpadding="0" cellspacing="0">
+              <table class="email-body_inner" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
+                <tr>
+                  <td class="content-cell">
+                    <div class="f-fallback">
+                      <!-- <img src="/Users/ritisinha/Downloads/haha_test/coconut.png" alt="Coconut Logo" />  NOT WORKING !!!-->
+                      <h1>Welcome, {{name}}!</h1>
+                      <p>Thanks for trying Coconut! We’re thrilled to have you on board. To get the most out of Cocoforces, verify your email first, your OTP is :</p>
+                      
+                      <table class="body-action" align="center" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+                        <tr>
+                          <td align="center">
+                            <p style="font-size: 32px; font-weight: bold; color: #bcc69b;">
+                               <span id="otpDisplay">{{verificationToken}}</span>
+                            </p>
+                          </td>
+                        </tr>
+                      </table>
+
+                      <p>For reference, here's your login information:</p>
+                      <table class="attributes" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+                        <tr>
+                          <td class="attributes_content">
+                            <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+                              <tr>
+                                <td class="attributes_item">
+                                  <strong>Username:</strong> {{name}}
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </table>
+
+                      <p>Note: OTP will expire within 5 minutes. Please don't share this OTP with anyone.</p>
+                      <p>Thanks,<br>The Coconut Team</p>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+
+</html>
