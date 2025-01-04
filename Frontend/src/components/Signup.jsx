@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const signupHandler = async (e) => {
         e.preventDefault();
@@ -17,6 +19,7 @@ export default function Signup() {
             });
             if(res.status === 200) {
                 alert("Signup successful");
+                navigate("/otp", { state: { email } });
             }
         } catch (error) {
             console.log(error);

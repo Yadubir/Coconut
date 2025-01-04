@@ -1,17 +1,21 @@
 import { useState } from 'react'
 import './App.css'
 import './style.css'
-import { Button } from './components/ui/button'
 import Signup from './components/Signup'
+import Otp from './components/Otp'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomePage from './components/HomePage'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <>
-      {/* <Button>Click here</Button> */}
-      <Signup />
-    </>
+    <Router>
+      <Routes>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/otp" element={<Otp />} />
+        <Route path="/homepage" element={<HomePage />} />
+      </Routes>
+    </Router>
   )
 }
 
