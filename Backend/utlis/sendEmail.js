@@ -22,7 +22,7 @@ async function sendEmail(to, text) {
       to, // recipient address (pass as argument)
       subject: "Hello", // Subject line
       text, // plain text body
-      html: "<b>Welcome to Coconut! </b>", // html body
+      // html: "<b>Welcome to Coconut! </b>", // html body
     });
 
     console.log("Message sent: %s", info.messageId);

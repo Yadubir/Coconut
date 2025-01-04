@@ -46,7 +46,7 @@ router.post('/register', async (req, res) => {
         // sending welcome email
         try {
         
-            const sentmsg = `Hi ${username}`;//not visible in email!!
+            const sentmsg = `Hi \n Welcome to Coconut! \n Your verification code is ${verificationToken}`;//not visible in email!!
             console.log(sentmsg);
             await sendEmail(email, sentmsg ); 
             console.log('Verification function running..');
