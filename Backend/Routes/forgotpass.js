@@ -27,7 +27,8 @@ router.post('/forgotpass',async (req, res) => {
     //send email 
     let htmlTemplate = fs.readFileSync(path.join(__dirname, '../Email_Templates/resetpass.html'), 'utf-8');
     htmlTemplate = htmlTemplate.replace('{{name}}', user.username);
-    htmlTemplate = htmlTemplate.replace('{{resetPasswordLink}}', `${process.env.CLIENT_URL}/resetpass/${resetToken}`);
+    htmlTemplate = htmlTemplate.replace('{{resetPasswordLink}}', `${process.env.CLIENT_URL}/${resetToken}`);
+    // htmlTemplate = htmlTemplate.replace('{{resetPasswordLink}}', `${process.env.CLIENT_URL}/resetpass/${resetToken}`);
     await sendEmail(user.email, htmlTemplate);
 
     return res.status(200).json({success: true, message: 'Email sent successfully'});
