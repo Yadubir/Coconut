@@ -1,11 +1,14 @@
 const express = require('express');
 const router = express.Router();
+const fs = require('fs');
+const path = require('path');
 const User = require('../Models/User');
 const sendEmail = require('../utlis/sendEmail');
 
 router.post('/verify', async (req, res) => {
-    const { email, oneTimePassword } = req.body;
+    const {email, oneTimePassword } = req.body;
 
+    // Verify email
     try {
         // Validate input
         if (!email || !oneTimePassword) {
@@ -33,12 +36,11 @@ router.post('/verify', async (req, res) => {
         user.verificationTokenExpiresAt = undefined; // Clear the expiration date
 
         await user.save();
-
-        try {
         
-            const sentmsg = `Hi ${user.username},\n Your Email is successfully verified \n \n Team COCONUT`;//not visible in email!!
-            console.log(sentmsg);
-            await sendEmail(email, sentmsg ); 
+        try {
+            let htmlTemplate = fs.readFileSync(path.join(__dirname, '../Email_Templates/verified.html'), 'utf-8');
+            htmlTemplate = htmlTemplate.replace('{{name}}', user.username);
+            await sendEmail(email, htmlTemplate ); 
             console.log('Verification function running..');
         } catch (emailError) {
             console.error('Error sending email:', emailError.message);
