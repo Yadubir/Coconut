@@ -11,6 +11,7 @@ const logout = require('./Routes/Logout');
 const verify = require('./Routes/VerifyEmail')
 const forgotpass = require('./Routes/forgotpass');
 const resetpass = require('./Routes/resetpass');
+const submissionRoutes = require('./Routes/submissionRoutes');
 
 dotenv.config();
 connectDB();
@@ -38,6 +39,7 @@ app.use('/api/auth', verify);
 app.use('/api/auth', forgotpass);
 // reset pass endpoint
 app.use('/api/auth', resetpass);
+app.use("/api/submit", submissionRoutes);
 
 
 const PORT = process.env.PORT || 3000;
