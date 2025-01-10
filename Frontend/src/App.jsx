@@ -9,6 +9,8 @@ import HomePage from './components/HomePage'
 // import Login from './components/Login';
 import Overall from './components/Overall';
 import ResetPass from './components/ResetPass'
+import CodeSubmission from './components/CodeSubmission'
+import ProblemForm from './components/ProblemForm'
 
 function App() {
 
@@ -20,6 +22,8 @@ function App() {
         <Route path="/homepage" element={<HomePage />} />
         <Route path="/overall" element={<Overall />} />
         <Route path="/resetpass/:token" element={<ResetPass />} />
+        <Route path="/submit" element={<CodeSubmission />} />
+        <Route path="admin/uploadproblem" element={<ProblemForm />} />
       </Routes>
     </Router>
   )
