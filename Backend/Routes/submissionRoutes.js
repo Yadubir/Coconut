@@ -39,7 +39,7 @@ const fetchSubmissionResult = async (token) => {
 // @access  Public
 
 router.post("/", async (req, res) => {
-    const { sourceCode, languageId, testCases } = req.body;
+    const {sourceCode, languageId, testCases } = req.body;
   
     if (!sourceCode || !languageId || !testCases) {
       return res.status(400).json({ message: "All fields are required" });

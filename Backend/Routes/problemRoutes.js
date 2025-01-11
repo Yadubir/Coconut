@@ -1,7 +1,7 @@
 const express = require("express");
 const Problem = require("../Models/Problem");
 const { protect } = require("../Middlewares/authMiddleware");
-
+const User = require("../Models/User");
 const router = express.Router();
 
 // @desc    Create a new problem
@@ -95,5 +95,49 @@ router.delete("/:id", protect, async (req, res) => {
     res.status(500).json({ message: "Error deleting problem", error: error.message });
   }
 });
+
+
+// @desc    Mark a problem as solved and add problemId to user
+// @route   POST /api/problems/:id/solve
+router.post("/:id/solve", protect, async (req, res) => {
+  try {
+    const problemId = req.params.id;
+    const userId = req.user.id; // `req.user` is populated by the `protect` middleware.
+    // console.log(userId);
+
+    // Check if the problem exists
+    const problem = await Problem.findById(problemId);
+    if (!problem) {
+      return res.status(404).json({ message: "Problem not found" });
+    }
+
+    // Find the user and add the problemId to their record
+    const user = await User.findById(userId);
+    // console.log(user);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // if (!user.problemIds || !user.problemIds.includes(problemId)) {
+    //   user.problemIds = user.problemIds || [];
+    //   user.problemIds.push(problemId); // Add problemId to the array
+    //   await user.save();
+    // } else {
+    //   return res.status(400).json({ message: "Problem already marked as solved" });
+    // }
+
+    if (user.problemId?.toString() === problemId) {
+      return res.status(400).json({ message: "Problem already marked as solved" });
+    }
+
+    user.problemId = problemId;
+    await user.save();
+
+    res.status(200).json({ message: "Problem marked as solved", problemId });
+  } catch (error) {
+    res.status(500).json({ message: "Error marking problem as solved", error: error.message });
+  }
+});
+
 
 module.exports = router;
