@@ -145,4 +145,61 @@ router.post("/", async (req, res) => {
 //   }
 // });
 
-module.exports = router;
+router.post("/run", async (req, res) => {
+  const {sourceCode, languageId, testCases } = req.body;
+
+  if (!sourceCode || !languageId || !testCases) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  try {
+    // Map test cases to promises
+    const results = await Promise.all(
+      testCases.map(async (testCase) => {
+        try {
+          // Submit the code for execution
+          const submissionResponse = await axios.post(
+            `${JUDGE0_API_URL}/submissions`,
+            {
+              source_code: sourceCode,
+              language_id: languageId,
+              stdin: testCase.input,
+              expected_output: testCase.expectedOutput,
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+                "X-RapidAPI-Key": JUDGE0_API_KEY,
+              },
+            }
+          );
+
+          const { token } = submissionResponse.data;
+
+          // Poll for the result
+          const result = await fetchSubmissionResult(token);
+
+          return {
+            testCase,
+            status: result.status.description || result.status,
+            output: result.stdout,
+            error: result.stderr,
+          };
+        } catch (error) {
+          return {
+            testCase,
+            status: "Error",
+            error: error.message,
+          };
+        }
+      })
+    );
+
+    res.status(200).json(results); // Return all test case results
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error executing test cases", error: error.message });
+  }
+});
+
+      module.exports = router;
