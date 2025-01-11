@@ -8,6 +8,7 @@ export default function Signup() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const [loggedIn, setLoggedIn] = useState(false);
 
     const signinHandler = async (e) => {
         e.preventDefault();
@@ -20,8 +21,9 @@ export default function Signup() {
             });
             if(res.status === 200) {
                 notifyLogin();
+                setLoggedIn(true);
                 setTimeout(() => {
-                    navigate("/homepage");
+                    navigate("/homepage", { state: { loggedIn: true } });
                 }, 1000);
             }
         } catch (error) {

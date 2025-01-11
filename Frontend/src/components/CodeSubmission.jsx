@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Editor from "@monaco-editor/react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const CodeSubmission = () => {
   const [sourceCode, setSourceCode] = useState(
@@ -18,11 +20,12 @@ const CodeSubmission = () => {
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { id } = useParams();
 
   const handleRun = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:3000/api/run", {
+      const response = await fetch("http://localhost:3000/api/submit/run", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -58,6 +61,11 @@ const CodeSubmission = () => {
       if (!allPassed) {
         console.error(data);
       }
+
+      if(allPassed) {
+        await axios.post(`http://localhost:3000/api/problems/${id}/solve`);
+      }
+
       alert(allPassed ? "All test cases passed! Solution accepted." : "Some test cases failed. Try again.");
     } catch (error) {
       console.error(error);
