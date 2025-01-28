@@ -28,7 +28,7 @@ function App() {
               </ProtectedRoute>
             } />
           <Route path="/profile" element={
-              <ProtectedRoute>
+              <ProtectedRoute allowGuests = {true}>
                 <Profile />
               </ProtectedRoute>
             } />

@@ -39,6 +39,7 @@ app.use('/api/auth', verify);
 app.use('/api/auth', forgotpass);
 // reset pass endpoint
 app.use('/api/auth', resetpass);
+// submission endpoint
 app.use("/api/submit", submissionRoutes);
 
 

@@ -62,9 +62,9 @@ const CodeSubmission = () => {
         console.error(data);
       }
 
-      if(allPassed) {
-        await axios.post(`http://localhost:3000/api/problems/${id}/solve`);
-      }
+      // if(allPassed) {
+      //   await axios.post(`http://localhost:3000/api/problems/${id}/solve`);
+      // }
 
       alert(allPassed ? "All test cases passed! Solution accepted." : "Some test cases failed. Try again.");
     } catch (error) {
