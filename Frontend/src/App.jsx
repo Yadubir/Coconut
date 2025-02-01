@@ -14,6 +14,7 @@ import ProblemForm from "./components/ProblemForm";
 import Profile from "./components/Profile";
 import ProtectedRoute from "./context/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
+import Dashboard from "./components/DashBoard";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="/resetpass/:token" element={<ResetPass />} />
           <Route path="/submit" element={<CodeSubmission />} />
           <Route path="admin/uploadproblem" element={<ProblemForm />} />
+          <Route path="user/:id" element={<Dashboard />} />
         </Routes>
       </Router>
     </AuthProvider>

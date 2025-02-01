@@ -256,3 +256,63 @@
     text-decoration: none;
   }
   
+  .react-calendar-heatmap .color-scale-1 { fill: #d6e685; }
+  .react-calendar-heatmap .color-scale-2 { fill: #8cc665; }
+  .react-calendar-heatmap .color-scale-3 { fill: #44a340; }
+  .react-calendar-heatmap .color-scale-4 { fill: #1e6823; }
+
+  .AvatarRoot {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    overflow: hidden;
+    user-select: none;
+    width: 20vw; /* 20% of the viewport width */
+    height: 20vw; /* Maintain aspect ratio */
+    max-width: 12.5rem; /* Maximum size */
+    max-height: 12.5rem; 
+    border-radius: 50%;
+    background-color: black;
+    margin:auto;
+    box-shadow: inset 0 2px 2px rgba(45, 45, 45, 0.1);
+  }
+  @media (max-width: 768px) {
+    .AvatarRoot {
+        width: 30vw; /* Adjust size for smaller screens */
+        height: 30vw;
+    }
+}
+
+@media (max-width: 480px) {
+    .AvatarRoot {
+        width: 40vw; /* Adjust size for even smaller screens */
+        height: 40vw;
+    }
+}
+  
+  .AvatarImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+  }
+  
+  .AvatarFallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f3f4f6;
+    color: black;
+    font-size: 35px;
+    line-height: 1;
+    font-weight: 550;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+  }
+  
+  .social-logo{
+    display: inline-flex;
+    margin-right: 5px;
+  }

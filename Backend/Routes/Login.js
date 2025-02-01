@@ -19,6 +19,7 @@ router.post('/login', async (req, res) => {
         // updating user last login
         user.lastLogin = Date.now();
         await user.save();
+        console.log(user);
       
         console.log(`User logged in with email: ${user.email}`);
     } catch (error) {
