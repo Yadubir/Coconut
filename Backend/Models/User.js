@@ -24,14 +24,26 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default:false
     },
-    problemId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Problem'
-    },
     resetPasswordToken: String, 
     resetPasswordExpiresAt: Date, 
     verificationToken: String, 
     verificationTokenExpiresAt: Date,  
+    submissions: [
+        {
+            problemId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Problem'
+            },
+            date: {
+                type: Date,
+            }
+        }
+    ],
+    totalDifficulty: {
+        easy: { type: Number, default: 0 },
+        medium: { type: Number, default: 0 },
+        hard: { type: Number, default: 0 }
+    },
 }, {timestamps :true});
 
 userSchema.pre('save', async function (next) {

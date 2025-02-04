@@ -1,6 +1,8 @@
 const express = require("express");
 const axios = require("axios");
 const router = express.Router();
+const addSubmission = require("../utlis/addSubmission");
+
 
 const JUDGE0_API_URL = process.env.JUDGE0_API_URL;
 const JUDGE0_API_KEY = process.env.JUDGE0_API_KEY;
@@ -68,9 +70,15 @@ router.post("/", async (req, res) => {
             );
   
             const { token } = submissionResponse.data;
-  
+            // console.log(token);
+            
             // Poll for the result
             const result = await fetchSubmissionResult(token);
+
+            if (result.status === "Accepted") {
+              addSubmission(UserId,problemId,difficulty);
+            }
+
   
             return {
               testCase,
