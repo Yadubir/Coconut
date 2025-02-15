@@ -1,5 +1,8 @@
 const express = require("express");
 const axios = require("axios");
+const { protect } = require("../Middlewares/authMiddleware");
+const Submission = require("../Models/Submission");
+const User = require("../Models/User");
 const router = express.Router();
 
 const JUDGE0_API_URL = process.env.JUDGE0_API_URL;
@@ -38,10 +41,12 @@ const fetchSubmissionResult = async (token) => {
 // @route   POST /api/submit
 // @access  Public
 
-router.post("/", async (req, res) => {
-    const {sourceCode, languageId, testCases } = req.body;
+router.post("/", protect, async (req, res) => {
+    const {sourceCode, languageId, testCases, problemId } = req.body;
+    const userId = req.user.id;
+    console.log(`The user id is ${userId}`);
   
-    if (!sourceCode || !languageId || !testCases) {
+    if (!sourceCode || !languageId || !testCases || !problemId) {
       return res.status(400).json({ message: "All fields are required" });
     }
   
@@ -71,6 +76,22 @@ router.post("/", async (req, res) => {
   
             // Poll for the result
             const result = await fetchSubmissionResult(token);
+
+            if (result.status.description === "Accepted") {
+              // Save to database
+              await Submission.create({
+                userId,
+                problemId,
+                sourceCode,
+                languageId,
+                status: "Accepted",
+              });
+
+              const currUser = await User.findById(userId);
+              currUser.problemId.push(problemId);
+              await currUser.save();
+              
+            }
   
             return {
               testCase,
