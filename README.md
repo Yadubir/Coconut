@@ -1,4 +1,4 @@
-# Coconut Project
+# Coconut -  CocoCode
 
 Coconut is an online coding platform that allows users to practice programming, submit coding problems, and enhance their skills
 
