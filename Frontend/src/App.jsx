@@ -12,35 +12,38 @@ import ResetPass from "./components/ResetPass";
 import CodeSubmission from "./components/CodeSubmission";
 import ProblemForm from "./components/ProblemForm";
 import Profile from "./components/Profile";
-import ProtectedRoute from "./context/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import Dashboard from "./components/DashBoard";
+import ProtectedRoute from "./context/ProtectedRoute";
+import Problems from "./components/Problems";
 
 function App() {
   return (
-    <AuthProvider>
       <Router>
         <Routes>
           <Route path="/signup" element={<Signup />} />
           <Route path="/otp" element={<Otp />} />
-          <Route path="/homepage" element={
-              <ProtectedRoute allowGuests={true}>
-                <HomePage />
-              </ProtectedRoute>
-            } />
-          <Route path="/profile" element={
-              <ProtectedRoute allowGuests = {true}>
-                <Profile />
-              </ProtectedRoute>
-            } />
+
+          <Route element={<ProtectedRoute />}>
+            <Route path="/homepage" element={<HomePage />} />
+          </Route>
+          <Route element={<ProtectedRoute />}>
+            <Route path="/profile" element={<Profile />} />
+          </Route>
+          <Route element={<ProtectedRoute />}>
+            <Route path="/submit" element={<CodeSubmission />} />
+            <Route path="/problems" element={<Problems />} />
+          </Route>
+          <Route element={<ProtectedRoute />}>
+            <Route path="/user/:id" element={<Dashboard />} />
+          </Route>
+          
           <Route path="/overall" element={<Overall />} />
           <Route path="/resetpass/:token" element={<ResetPass />} />
-          <Route path="/submit" element={<CodeSubmission />} />
+          {/* <Route path="/submit" element={<CodeSubmission />} /> */}
           <Route path="admin/uploadproblem" element={<ProblemForm />} />
-          <Route path="user/:id" element={<Dashboard />} />
         </Routes>
       </Router>
-    </AuthProvider>
   );
 }
 

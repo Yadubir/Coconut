@@ -3,8 +3,11 @@ import Editor from "@monaco-editor/react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
+import Navbar from "./Navbar";
 
 const CodeSubmission = () => {
+  const webToken = localStorage.getItem("token");
   const [sourceCode, setSourceCode] = useState(
     `import java.util.Scanner;\n\nclass Main {\n  public static void main(String[] args) {\n    Scanner scanner = new Scanner(System.in);\n    int a = scanner.nextInt();\n    int b = scanner.nextInt();\n    System.out.println(a + b);\n  }\n}`
   );
@@ -20,7 +23,6 @@ const CodeSubmission = () => {
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { id } = useParams();
 
   const handleRun = async () => {
     setLoading(true);
@@ -47,24 +49,33 @@ const CodeSubmission = () => {
   const handleSubmit = async () => {
     setLoading(true);
     try {
+      if (!webToken) {
+        alert("User not authenticated. Please log in again.");
+        return;
+      }
       const response = await fetch("http://localhost:3000/api/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json",
+        "Authorization": `Bearer ${webToken}`,
+       },
         body: JSON.stringify({
           sourceCode,
           languageId,
           testCases: [...visibleTestCases, ...hiddenTestCases],
+          problemId: "60a6e9a4c9e77c0015a3e8b1", 
         }),
       });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`HTTP error! Status: ${response.status} - ${errorText}`);
+      }
+
       const data = await response.json();
       const allPassed = data.every((result) => result.status === "Accepted");
       if (!allPassed) {
         console.error(data);
       }
-
-      // if(allPassed) {
-      //   await axios.post(`http://localhost:3000/api/problems/${id}/solve`);
-      // }
 
       alert(allPassed ? "All test cases passed! Solution accepted." : "Some test cases failed. Try again.");
     } catch (error) {
@@ -79,7 +90,14 @@ const CodeSubmission = () => {
   };
 
   return (
+    <>
+    {/* <Navbar /> */}
     <div className="flex h-screen">
+      <Link to="/problems" className="absolute top-4 left-4">
+            <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+              Go Back
+            </button>
+          </Link>
       {/* Left Section */}
       <div className="w-1/2 bg-gray-100 p-8 border-r border-gray-300">
         <h1 className="text-2xl font-bold mb-4">Problem: Sum of Two Numbers</h1>
@@ -168,6 +186,7 @@ const CodeSubmission = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 

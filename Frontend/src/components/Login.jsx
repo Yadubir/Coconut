@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Button } from "./ui/button";
 import toast, { Toaster } from 'react-hot-toast';
 
 export default function Signup() {
@@ -20,6 +19,7 @@ export default function Signup() {
                 withCredentials: true
             });
             if(res.status === 200) {
+              localStorage.setItem("token", res.data.token);
                 notifyLogin();
                 setLoggedIn(true);
                 setTimeout(() => {

@@ -42,7 +42,11 @@ const fetchSubmissionResult = async (token) => {
 // @access  Public
 
 router.post("/", protect, async (req, res) => {
-    const {sourceCode, languageId, testCases, problemId } = req.body;
+    const {sourceCode, 
+      languageId, 
+      testCases, 
+      problemId 
+    } = req.body;
     const userId = req.user.id;
     console.log(`The user id is ${userId}`);
   
@@ -88,7 +92,10 @@ router.post("/", protect, async (req, res) => {
               });
 
               const currUser = await User.findById(userId);
-              currUser.problemId.push(problemId);
+              if (!currUser.problemId.includes(problemId)) {
+                currUser.problemId.push(problemId);
+                currUser.problemsSolved += 1;
+              }
               await currUser.save();
               
             }
@@ -98,6 +105,7 @@ router.post("/", protect, async (req, res) => {
               status: result.status.description || result.status,
               output: result.stdout,
               error: result.stderr,
+              
             };
           } catch (error) {
             return {
@@ -115,56 +123,20 @@ router.post("/", protect, async (req, res) => {
       res.status(500).json({ message: "Error executing test cases", error: error.message });
     }
   });
+
+  router.get("/problems-solved", protect, async (req, res) => {
+    try {
+      const user = await User.findById(req.user.id);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
   
-
-// router.post("/", async (req, res) => {
-//   const { sourceCode, languageId, testCases } = req.body;
-
-//   if (!sourceCode || !languageId || !testCases) {
-//     return res.status(400).json({ message: "All fields are required" });
-//   }
-
-//   try {
-//     const results = [];
-
-//     // Execute each test case
-//     for (const testCase of testCases) {
-//       // Submit code to Judge0 API
-//       const submissionResponse = await axios.post(
-//         `${JUDGE0_API_URL}/submissions`,
-//         {
-//           source_code: sourceCode,
-//           language_id: languageId,
-//           stdin: testCase.input,
-//           expected_output: testCase.expectedOutput,
-//         },
-//         {
-//           headers: {
-//             "Content-Type": "application/json",
-//             "X-RapidAPI-Key": JUDGE0_API_KEY,
-//           },
-//         }
-//       );
-
-//       const { token } = submissionResponse.data;
-
-//       // Poll the API for the final result
-//       const result = await fetchSubmissionResult(token);
-
-//       results.push({
-//         testCase,
-//         status: result.status.description || result.status,
-//         output: result.stdout,
-//         error: result.stderr,
-//       });
-//     }
-
-//     res.status(200).json(results);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "Error executing code", error: error.message });
-//   }
-// });
+      res.status(200).json({ problemsSolved: user.problemsSolved });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Error fetching problems solved", error: error.message });
+    }
+  });
 
 router.post("/run", async (req, res) => {
   const {sourceCode, languageId, testCases } = req.body;
