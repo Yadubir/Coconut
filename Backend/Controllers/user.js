@@ -1,7 +1,13 @@
 const User = require('../Models/User');
+const mongoose = require('mongoose');
 
 exports.read = async (req, res) => {
     const userId = req.params.id;
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(400).json({
+            error: 'Invalid user ID'
+        });
+    }
     try {
         const user = await User.findById(userId).exec();
         if (!user) {
@@ -10,8 +16,8 @@ exports.read = async (req, res) => {
                 error: 'User not found'
             });
         }
-        user.hashed_password = undefined;
-        user.salt = undefined;
+        // user.hashed_password = undefined;
+        // user.salt = undefined;
         const submissionCounts = user.submissions.reduce((acc, submission) => {
             const date = new Date(submission.date).toISOString().split('T')[0];
             acc[date] = (acc[date] || 0) + 1;

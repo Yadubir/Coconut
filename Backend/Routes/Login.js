@@ -13,9 +13,12 @@ router.post('/login', async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
-        const webtoken = generateToken(res, user._id);
-        console.log({webtoken});
-        res.status(200).json({success: true, message: 'User logged in  successfully'});
+        const token = generateToken(res, user._id);
+        console.log({token});
+        res.status(200).json({success: true, 
+            message: 'User logged in  successfully',
+            token,
+        });
         // updating user last login
         user.lastLogin = Date.now();
         await user.save();

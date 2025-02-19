@@ -3,7 +3,8 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 
 const HomePage = () => {
-  const isLoggedIn = localStorage.getItem("loggedIn");
+  const isLoggedIn = localStorage.getItem("token");
+  
   return (
     <>
     <Navbar />

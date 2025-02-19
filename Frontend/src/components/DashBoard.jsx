@@ -9,6 +9,7 @@ import { LinkedInLogoIcon, GitHubLogoIcon, Link2Icon, ChevronDownIcon,ChevronUpI
 import * as Collapsible from "@radix-ui/react-collapsible";
 // import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer,Cell } from "recharts";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import Navbar from "./Navbar";
 
 // const CustomTooltip = ({ active, payload, label }) => {
 //     if (active && payload && payload.length) {
@@ -38,6 +39,7 @@ const Dashboard = () => {
     const [error, setError] = useState(null);
     const { id } = useParams();
     const [open, setOpen] = React.useState(false);
+    const [probSolved, setProbSolved] = useState(null);
 
     const values = [
         { date: '2025-01-01', count: 3 },
@@ -60,11 +62,48 @@ const Dashboard = () => {
         { name: "Hard", value: 1, color: "#F44336" }, // Red
       ];
       const COLORS = ['#4ade80', '#fb923c', '#ef4444'];
+useEffect(() => {
+    const fetchUserData = async () => {
+        try {
+            const response = await axios.get(`http://localhost:3000/api/user/${id}`);
+            setUser(response.data);
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    fetchUserData();
+}, []);
+
+useEffect(() => {
+    const fetchProblemsSolved = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await axios.get("http://localhost:3000/api/submit/problems-solved", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                withCredentials: true,
+            });
+            setProbSolved(response.data.problemsSolved);
+        } catch (err) {
+            setError(err.response?.data?.message || "Something went wrong");
+        }
+    };
+
+    fetchProblemsSolved();
+}, []);
+
+
+
+
 // useEffect(() => {
 //     const fetchUserData = async () => {
 //         try {
-//             const response = await axios.get(`http://localhost:3000/api/user/${id}`);
-//             setUser(response.data);
+//             const response = await axios.get(`http://localhost:3000/api/submit/problems-solved`);
+//             setProbSolved(response.data);
 //         } catch (err) {
 //             setError(err.message);
 //         } finally {
@@ -75,13 +114,16 @@ const Dashboard = () => {
 //     fetchUserData();
 // }, []);
 
-// if (loading) return <div>Loading...</div>;
-// if (error) return <div>Error: {error}</div>;
+
+
+if (loading) return <div>Loading...</div>;
+if (error) return <div>Error: {error}</div>;
 
 return (
     <div>
+        <Navbar />
         {/* {user.name} for actual name */}
-        <h1 className="text-2xl font-bold mb-4 pl-5">Dashboard</h1>
+        {/* <h1 className="text-2xl font-bold mb-4 pl-5">Dashboard</h1> */}
         <div className="flex gap-4 w-screen px-10 sm:flex-row flex-col">
             <div className=" sidebar bg-green-100 p-4 rounded-lg shadow mx-auto w-full md:w-1/4">
             
@@ -96,8 +138,8 @@ return (
 				    FL
 			        </Avatar.Fallback>
 		        </Avatar.Root>
-                <p className="text-center mt-5 mb-0 font-semibold">Display Name</p>
-                <p className="text-center mb-5 mt-0 text-gray-600">Username</p>
+                {/* <p className="text-center mt-5 mb-0 font-semibold">Display Name</p> */}
+                <p className="text-center mb-5 mt-5 font-semibold text-gray-600">{user.username}</p>
                 <p className="text-pretty my-5 text-gray-600">About yourself: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
                 <hr className="my-4 border-gray-500" />
                 <a href="#" className="block text-blue-600 hover:underline"> <LinkedInLogoIcon className="social-logo"/>LinkedIn URL</a>
@@ -122,7 +164,7 @@ return (
                     />
 
                     <div className="flex justify-between mt-4 mx-4">
-                        <span className="text-sm"> No of problems solved : 100</span>
+                        <span className="text-sm"> No of problems solved : {probSolved > 0 ? probSolved : 0}</span>
                         <span className="text-sm"> No of problems attempted : 100</span>
                         <span className="text-sm">Rank : 14,625</span>
                         <span className="text-sm"> No of contests : 100</span>
