@@ -14,12 +14,14 @@ const Problems = () => {
   return (
     <>
       <Navbar />
-      <div className="container mx-auto p-8">
-        <h1 className="text-2xl font-bold mb-4">Problem List</h1>
-        <div className="space-y-4">
+
+      <div className="container mx-auto p-8 top-40">
+      
+        <h1 className="text-2xl font-bold mb-4 ">Problem List</h1>
+        <div className="space-y-4 ">
           {problems.map((problem) => (
             <Link key={problem.id} to={`/submit/${problem.id}`}>
-              <div className="border p-4 rounded-lg cursor-pointer hover:bg-gray-100">
+              <div className="border p-4 rounded-lg cursor-pointer hover:bg-lightbg">
                 <h2 className="text-lg font-semibold">{problem.title}</h2>
                 <p className="text-sm text-gray-500">{problem.difficulty}</p>
               </div>
@@ -27,6 +29,7 @@ const Problems = () => {
           ))}
         </div>
       </div>
+
     </>
   );
 };
