@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
-
+import cocoLogo from "../assets/coco.svg";
 const Navbar = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
@@ -53,13 +53,15 @@ const Navbar = () => {
     <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
       <Toaster />
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a className="flex items-center space-x-3 rtl:space-x-reverse">
-          <img
+        <a className="flex items-center space-x-3 rtl:space-x-reverse" href="/homepage">
+          {/* <img
             src="https://flowbite.com/docs/images/logo.svg"
             className="h-8"
             alt="Flowbite Logo"
-          />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+          /> */}
+          <img src={cocoLogo} alt="Coco Logo" className="h-8 w-auto" />
+
+          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white" >
             CocoCode
           </span>
         </a>
@@ -68,7 +70,7 @@ const Navbar = () => {
             <button
               onClick={logout}
               type="button"
-              className="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-800"
+              className="text-white bg-basegreen hover:bg-olive focus:ring-4 focus:outline-none focus:ring-lightbg font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-lightbg dark:hover:bg-olive dark:focus:ring-basegreen"
             >
               Logout
             </button>
@@ -90,7 +92,7 @@ const Navbar = () => {
             <li>
               <a
                 href="/homepage"
-                className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
+                className="block py-2 px-3 text-white bg-olive rounded md:bg-transparent md:text-olive md:p-0 md:dark:text-olive"
                 aria-current="page"
               >
                 Home
@@ -99,7 +101,7 @@ const Navbar = () => {
             <li>
               <a
                 href={userId ? `/user/${userId}` : "#"}
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-olive md:p-0 md:dark:hover:text-olive dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
                 Profile
               </a>
@@ -107,7 +109,7 @@ const Navbar = () => {
             <li>
               <a
                 href="/problems"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-olive md:p-0 md:dark:hover:text-olive dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
                 Problem set
               </a>
@@ -115,7 +117,7 @@ const Navbar = () => {
             <li>
               <a
                 href="#"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-olive md:p-0 md:dark:hover:text-olive dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
                 Contact
               </a>
