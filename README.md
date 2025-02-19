@@ -83,6 +83,8 @@ Coconut is an online coding platform that allows users to practice programming, 
    EMAIL_SERVICE=your_email_service
    EMAIL_USER=your_email_user
    EMAIL_PASS=your_email_password
+   JUDGE0_API_URL=your_judge0_API_url
+   JUDGE0_API_KEY=your_judge0_API_key
 4. **Start the backend server**
    ```bash
    npm start

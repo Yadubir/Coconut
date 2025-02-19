@@ -43,14 +43,27 @@ useEffect(() => {
     fetchUserData();
 }, []);
 
-const fetchUserData = async () => {
-            try {
-                const response = await axios.get(`http://localhost:3000/api/submit/problems-solved`);
-                setProbSolved(response.data);
-            } catch (err) {
-                setError(err.message);
-            }
-            }
+useEffect(() => {
+    const fetchProblemsSolved = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await axios.get("http://localhost:3000/api/submit/problems-solved", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                withCredentials: true,
+            });
+            setProbSolved(response.data.problemsSolved);
+        } catch (err) {
+            setError(err.response?.data?.message || "Something went wrong");
+        }
+    };
+
+    fetchProblemsSolved();
+}, []);
+
+
+
 
 // useEffect(() => {
 //     const fetchUserData = async () => {
@@ -117,7 +130,7 @@ return (
                     />
 
                     <div className="flex justify-between mt-4 mx-4">
-                        <span className="text-sm"> No of problems solved : {probSolved}</span>
+                        <span className="text-sm"> No of problems solved : {probSolved > 0 ? probSolved : 0}</span>
                         <span className="text-sm"> No of problems attempted : 100</span>
                         <span className="text-sm">Rank : 14,625</span>
                         <span className="text-sm"> No of contests : 100</span>
