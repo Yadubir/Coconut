@@ -48,9 +48,12 @@ const HomePage = () => {
               {/* Right Section: Get Started */}
               <div className="w-1/2 bg-white p-8 flex flex-col justify-center items-center">
                 <h2 className="text-2xl font-bold mb-4 text-gray-700">Ready to Get Started?</h2>
-                <button className="w-3/4 bg-basegreen text-white px-4 py-2 rounded-lg hover:bg-olive transition mb-4">
+
+                <button className="w-3/4 bg-basegreen text-white px-4 py-2 rounded-lg hover:bg-olive transition mb-4"
+                  onClick={() => window.location.href = "/problems"}>
                   Get Started
                 </button>
+
                 <p className="text-sm text-gray-400">Join now and start solving challenges today!</p>
               </div>
             </div>
