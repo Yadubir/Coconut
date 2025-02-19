@@ -16,6 +16,7 @@ import { AuthProvider } from "./context/AuthContext";
 import Dashboard from "./components/DashBoard";
 import ProtectedRoute from "./context/ProtectedRoute";
 import Problems from "./components/Problems";
+import ProblemDetail from "./components/ProblemDetail";
 
 function App() {
   return (
@@ -31,12 +32,14 @@ function App() {
             <Route path="/profile" element={<Profile />} />
           </Route>
           <Route element={<ProtectedRoute />}>
-            <Route path="/submit" element={<CodeSubmission />} />
+            <Route path="/submit/:id" element={<CodeSubmission />} />
             <Route path="/problems" element={<Problems />} />
+            {/* <Route path="/problems/:id" element={<ProblemDetail />} /> */}
           </Route>
           <Route element={<ProtectedRoute />}>
             <Route path="/user/:id" element={<Dashboard />} />
           </Route>
+
           
           <Route path="/overall" element={<Overall />} />
           <Route path="/resetpass/:token" element={<ResetPass />} />
