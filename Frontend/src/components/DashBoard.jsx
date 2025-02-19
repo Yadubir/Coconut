@@ -7,8 +7,31 @@ import '../styles.css';
 import * as Avatar from "@radix-ui/react-avatar";
 import { LinkedInLogoIcon, GitHubLogoIcon, Link2Icon, ChevronDownIcon,ChevronUpIcon } from "@radix-ui/react-icons"
 import * as Collapsible from "@radix-ui/react-collapsible";
+// import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer,Cell } from "recharts";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
-
+// const CustomTooltip = ({ active, payload, label }) => {
+//     if (active && payload && payload.length) {
+//       return (
+//         <div className="custom-tooltip bg-gray-400 px-1 bg-opacity-75 rounded-sm shadow-md">
+//           <p className="label">{`${label} : ${payload[0].value}`}</p>
+//         </div>
+//       );
+//     }
+  
+//     return null;
+//   };
+  const RADIAN = Math.PI / 180;
+  const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+    return (
+      <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+        {`${(percent * 100).toFixed(0)}%`}
+      </text>
+    );
+  };
 const Dashboard = () => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -26,6 +49,17 @@ const Dashboard = () => {
         // Add more data points
       ];
 
+    //   const difficultyData = [
+    //     { name: 'Easy', value: data?.easy || 0 },
+    //     { name: 'Medium', value: data?.medium || 0 },
+    //     { name: 'Hard', value: data?.hard || 0 },
+    //   ];
+    const difficultyData = [
+        { name: "Easy", value: 10, color: "#4CAF50" }, // Green
+        { name: "Medium", value: 5, color: "#FFC107" }, // Yellow
+        { name: "Hard", value: 1, color: "#F44336" }, // Red
+      ];
+      const COLORS = ['#4ade80', '#fb923c', '#ef4444'];
 // useEffect(() => {
 //     const fetchUserData = async () => {
 //         try {
@@ -98,19 +132,78 @@ return (
                 <div aria-label="topics solved" className="md:container bg-white p-4 rounded-lg shadow mx-0 w-1/2 md:w-1/2 mt-4">
                     <h3 className="text-xl text-gray-700 font-semibold text-left">Topics</h3>
                         {/* <div class="mx-auto grid max-w-lg grid-cols-4 text-center items-center gap-x-8 gap-y-5 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5"> */}
-                    <div class="mx-auto gap-4 flex max-w-lg text-center items-center sm:max-w-xl lg:mx-0 lg:max-w-none mt-4 flex-wrap">
-                        <span class="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-100/20">Array x78</span>
-                        <span class="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-100/20">Strings-32</span>
-                        <span class="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/20">Graph : 12</span>
-                        <span class="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/20">Badge</span>
-                        <span class="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/20">Badge</span>
-                        <span class="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/20">Badge</span>
-                        <span class="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/20">Badge</span>
-                        <span class="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/20">Badge</span>
-                        <span class="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/20">Badge</span>
+                    <div className="mx-auto gap-4 flex max-w-lg text-center items-center sm:max-w-xl lg:mx-0 lg:max-w-none mt-4 flex-wrap">
+                        <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-100/20">Array x78</span>
+                        <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-100/20">Strings-32</span>
+                        <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/20">Graph : 12</span>
+                        <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/20">Badge</span>
+                        <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/20">Badge</span>
+                        <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/20">Badge</span>
+                        <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/20">Badge</span>
+                        <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/20">Badge</span>
+                        <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/20">Badge</span>
                     </div>
                 </div>
-                <div aria-label="problems solved" className="md:container bg-white p-4 rounded-lg shadow mx-0 w-1/2 md:w-1/2 mt-4" >
+                
+                <div aria-label="difficulty stats" className="md:container bg-white px-4 pt-4 rounded-lg shadow mx-0 w-1/2 md:w-1/2 mt-4">
+                    <h3 className="text-xl text-gray-700 font-semibold text-left">Difficulty Levels</h3>
+                {/* <ResponsiveContainer width="70%" height={200} className="mt-1" >
+                    <BarChart data={difficultyData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip content={<CustomTooltip/>}/>
+                        <Bar dataKey="value" barSize={40}>
+                            {difficultyData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                            ))}
+                        </Bar>
+                    </BarChart>
+                </ResponsiveContainer> */}
+                <div className="flex-row flex gap-4 w-full">
+                  <ResponsiveContainer className="w-3/5" height={200}>
+                    <PieChart >
+        
+                    <Pie
+                    data={difficultyData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={renderCustomizedLabel}
+                    outerRadius={80}
+                    fill="#8884d8"
+                    dataKey="value"
+                    >
+                    {difficultyData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                    </Pie>
+                    </PieChart>
+                  </ResponsiveContainer>
+                  {/* <div aria-label="legend" width="25%" className="w-1/4"> 
+                    <p className="text-sm">Easy</p>
+                    <p className="text-sm">Medium</p>
+                    <p className="text-sm">Hard</p>
+                  </div> */}
+                  <div className="w-2/5 flex flex-col justify-center">
+                  <div className="flex items-center">
+                    <span className="inline-block w-4 h-4 mb-2 mr-2 bg-green-500"></span>
+                    <p className="text-sm ">Easy - {difficultyData[0].value}</p>
+                  </div>
+                  <div className="flex items-center">
+                    <span className="inline-block w-4 h-4 mr-2 mb-2 bg-yellow-500"></span>
+                    <p className="text-sm">Medium - {difficultyData[1].value}</p>
+                  </div>
+                  <div className="flex items-center">
+                    <span className="inline-block w-4 h-4 mr-2 mb-2 bg-red-500"></span>
+                    <p className="text-sm">Hard - {difficultyData[2].value}</p>
+                  </div>
+                </div>
+                </div>
+                
+                </div>
+                </div>
+                <div aria-label="problems solved" className="md:container bg-white p-4 rounded-lg shadow mx-0  mt-4" >
                     <Collapsible.Root
 			            className="CollapsibleRoot"
 			            open={open}
@@ -143,7 +236,6 @@ return (
                         <p className="mb-1">Problem 1</p>
                         <p className="mb-1">Problem 2</p>
                         <p className="mb-1">Problem 3</p> */}
-                </div>
                 </div>
             </div>
         </div>

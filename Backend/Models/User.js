@@ -7,6 +7,10 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    displayname: {
+        type: String,
+        default: ''
+    },
     email: {
         type: String,
         required: true,
@@ -23,6 +27,22 @@ const userSchema = new mongoose.Schema({
     isVerified:{
         type: Boolean,
         default:false
+    },
+    about: {
+        type: String,
+        default: ''
+    },
+    linkedin: {
+        type: String,
+        default: ''
+    },
+    github: {
+        type: String,
+        default: ''
+    },
+    website: {
+        type: String,
+        default: ''
     },
     resetPasswordToken: String, 
     resetPasswordExpiresAt: Date, 
