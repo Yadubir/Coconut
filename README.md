@@ -119,8 +119,8 @@ Coconut is an online coding platform that allows users to practice programming, 
 ## remaining work
 1. home page ✔️ -(make features div same size as the above one)
 2. Problem page layout ✔️ -(add bg color olive)
-3. Dropdown for code editor (c++/ java)
+3. Dropdown for code editor (c++/ java) ✔️ 
 4. Profile Dashboard ✔️ - make it same colors as the website, sync problems, calendar, diffuclty stats 
-6. screenshots for readme 
-7. Code Editor alignment - partially 
-8. About Page (heheh)
+5. screenshots for readme 
+6. Code Editor alignment - partially 
+7. About Page (heheh)

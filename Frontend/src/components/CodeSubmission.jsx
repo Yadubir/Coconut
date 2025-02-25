@@ -8,7 +8,6 @@ const CodeSubmission = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const webToken = localStorage.getItem("token");
-  
   const problems = [
     {
       id: "60a6e9a4c9e77c0015a3e8b2",
@@ -109,11 +108,34 @@ const CodeSubmission = () => {
   ];
 
   const [problem, setProblem] = useState(null);
-  const [sourceCode, setSourceCode] = useState(
-    `include <stdio.h>\nusing namespace std \n\nint main() {\n  // Your code here\n  return 0;\n}`
-    // `import java.util.Scanner;\n\nclass Main {\n  public static void main(String[] args) {\n    Scanner scanner = new Scanner(System.in);\n    // Your code here\n  }\n}`
-  );
-  const [languageId] = useState(52); // Java
+  // const [sourceCode, setSourceCode] = useState(
+  //   `include <stdio.h>\nusing namespace std \n\nint main() {\n  // Your code here\n  return 0;\n}`
+  //   // `import java.util.Scanner;\n\nclass Main {\n  public static void main(String[] args) {\n    Scanner scanner = new Scanner(System.in);\n    // Your code here\n  }\n}`
+  // );
+  
+  // Default: Java (ID: 52)
+  const [language, setLanguage] = useState("java");
+  const [languageId, setLanguageId] = useState(52);
+  const [sourceCode, setSourceCode] = useState("");
+  const languageOptions = [
+    { id: "cpp", name: "C++", judgeId: 54, defaultCode: `#include <iostream>\nusing namespace std;\n\nint main() {\n  // Your code here\n  return 0;\n}` },
+    { id: "c", name: "C", judgeId: 50, defaultCode: `#include <stdio.h>\n\nint main() {\n  // Your code here\n  return 0;\n}` },
+    { id: "java", name: "Java", judgeId: 52, defaultCode: `import java.util.*;\n\nclass Main {\n  public static void main(String[] args) {\n    Scanner scanner = new Scanner(System.in);\n    // Your code here\n  }\n}` },
+    { id: "python", name: "Python", judgeId: 71, defaultCode: `# Your Python code here\n\ndef main():\n    pass\n\nif __name__ == "__main__":\n    main()` },
+    { id: "javascript", name: "JavaScript", judgeId: 63, defaultCode: `// Your JavaScript code here\nfunction main() {\n  console.log("Hello, world!");\n}\n\nmain();` },
+  ];
+
+  // Update language ID and default code when the language changes
+  useEffect(() => {
+    const selectedLang = languageOptions.find((l) => l.id === language);
+    if (selectedLang) {
+      setLanguageId(selectedLang.judgeId);
+      setSourceCode(selectedLang.defaultCode);
+    }
+  }, [language]);
+
+  
+
   const [results, setResults] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -231,7 +253,8 @@ const CodeSubmission = () => {
       </Link> */}
 
       {/* Problem Description Section */}
-      <div className="w-1/2 bg-gray-100 p-8 border-r border-gray-300 ">
+
+      <div className="w-1/2 bg-gray-100 p-8 border-r border-gray-300">
         <h1 className="text-2xl font-bold mb-4 pr-96">{problem.title}</h1>
         <div className="h-[calc(100vh-120px)] overflow-y-auto">
           <div className="mb-6">
@@ -271,6 +294,7 @@ const CodeSubmission = () => {
       <div className="w-1/2 p-8 flex flex-col">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">Code Editor</h2>
+          
           <div className="space-x-4">
             <button
               onClick={handleRun}
@@ -287,6 +311,22 @@ const CodeSubmission = () => {
               {loading ? "Submitting..." : "Submit Solution"}
             </button>
           </div>
+        </div>
+        {/*Dropdown box */}
+        <div className="mb-4">
+          <label htmlFor="language" className="block text-sm font-medium text-gray-500">Select Language:</label>
+          <select
+            id="language"
+            className="mt-1 block w-half p-1 border border-gray-300 rounded-md"
+            value={language}
+            onChange={(e) => setLanguage(e.target.value)}
+          >
+            {languageOptions.map((lang) => (
+              <option key={lang.id} value={lang.id}>
+                {lang.name} ({lang.id})
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="flex-grow">
