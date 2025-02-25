@@ -23,7 +23,7 @@ export default function Signup() {
                 notifyLogin();
                 setLoggedIn(true);
                 setTimeout(() => {
-                    navigate("/homepage", { state: { loggedIn: true } });
+                    navigate("/", { state: { loggedIn: true } });
                 }, 1000);
             }
         } catch (error) {
