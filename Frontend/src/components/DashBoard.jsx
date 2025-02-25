@@ -152,9 +152,9 @@ return (
 
                 <p className="text-pretty my-5 text-gray-600">{user.data.about}</p>
                 <hr className="my-4 border-gray-500" />
-                <a href={user.data.linkedin} className="block text-blue-600 hover:underline"> <LinkedInLogoIcon className="social-logo"/>LinkedIn URL</a>
-                <a href={user.data.github} className="block text-olive hover:underline"> <GitHubLogoIcon className="social-logo"/>GitHub URL</a>
-                <a href={user.data.profile} className="block text-blue-600 hover:underline"> <Link2Icon className="social-logo"/>Portfolio URL</a>
+                <a href={user.data.linkedin} target="_blank" className="block text-blue-600 hover:underline"> <LinkedInLogoIcon className="social-logo"/>LinkedIn URL</a>
+                <a href={user.data.github} target="_blank" className="block text-olive hover:underline"> <GitHubLogoIcon className="social-logo"/>GitHub URL</a>
+                <a href={user.data.profile} target="_blank" className="block text-blue-600 hover:underline"> <Link2Icon className="social-logo"/>Portfolio URL</a>
             </div>
             <div className="stats md:w-3/4"> {/* p-4 rounded-lg md:container md:mx-auto w-full */}
                 <div aria-label="activity calander" className="md:container bg-white p-4 rounded-lg shadow mx-0 w-full  md:w-full">
