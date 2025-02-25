@@ -133,7 +133,7 @@ return (
         <Navbar />
         {/* {user.name} for actual name */}
         {/* <h1 className="text-2xl font-bold mb-4 pl-5">Dashboard</h1> */}
-        <div className="flex gap-4 w-screen px-10 sm:flex-row flex-col">
+        <div className="flex gap-4 w-screen px-10 sm:flex-row pt-52 flex-col">
             <div className=" sidebar bg-lightbg p-4 rounded-lg shadow mx-auto w-full md:w-1/4">
             
                 <Avatar.Root className="AvatarRoot ">
