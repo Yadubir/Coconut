@@ -40,6 +40,7 @@ const Dashboard = () => {
     const { id } = useParams();
     const [open, setOpen] = React.useState(false);
     const [probSolved, setProbSolved] = useState(null);
+    const [username, setUsername] = useState("");
 
     const values = [
         { date: '2025-01-01', count: 3 },
@@ -62,20 +63,28 @@ const Dashboard = () => {
         { name: "Hard", value: 1, color: "#F44336" }, // Red
       ];
       const COLORS = ['#4ade80', '#fb923c', '#ef4444'];
+
+
 useEffect(() => {
+
     const fetchUserData = async () => {
         try {
+            console.log("User ID:", id);
             const response = await axios.get(`http://localhost:3000/api/user/${id}`);
-            setUser(response.data);
+            console.log(response.data);
+            
+            setUser(response);
+            // setUsername(response.data.username);
         } catch (err) {
             setError(err.message);
         } finally {
             setLoading(false);
         }
+        console.log(user);
     };
 
     fetchUserData();
-}, []);
+}, [id]);
 
 useEffect(() => {
     const fetchProblemsSolved = async () => {
@@ -125,7 +134,7 @@ return (
         {/* {user.name} for actual name */}
         {/* <h1 className="text-2xl font-bold mb-4 pl-5">Dashboard</h1> */}
         <div className="flex gap-4 w-screen px-10 sm:flex-row flex-col">
-            <div className=" sidebar bg-green-100 p-4 rounded-lg shadow mx-auto w-full md:w-1/4">
+            <div className=" sidebar bg-lightbg p-4 rounded-lg shadow mx-auto w-full md:w-1/4">
             
                 <Avatar.Root className="AvatarRoot ">
 			        <Avatar.Image
@@ -139,12 +148,13 @@ return (
 			        </Avatar.Fallback>
 		        </Avatar.Root>
                 {/* <p className="text-center mt-5 mb-0 font-semibold">Display Name</p> */}
-                <p className="text-center mb-5 mt-5 font-semibold text-gray-600">{user.username}</p>
-                <p className="text-pretty my-5 text-gray-600">About yourself: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+                <p className="text-center mb-5 mt-5 font-semibold text-gray-600">{user.data.name}</p>
+
+                <p className="text-pretty my-5 text-gray-600">{user.data.about}</p>
                 <hr className="my-4 border-gray-500" />
-                <a href="#" className="block text-blue-600 hover:underline"> <LinkedInLogoIcon className="social-logo"/>LinkedIn URL</a>
-                <a href="#" className="block text-blue-600 hover:underline"> <GitHubLogoIcon className="social-logo"/>GitHub URL</a>
-                <a href="#" className="block text-blue-600 hover:underline"> <Link2Icon className="social-logo"/>Portfolio URL</a>
+                <a href={user.data.linkedin} className="block text-blue-600 hover:underline"> <LinkedInLogoIcon className="social-logo"/>LinkedIn URL</a>
+                <a href={user.data.github} className="block text-olive hover:underline"> <GitHubLogoIcon className="social-logo"/>GitHub URL</a>
+                <a href={user.data.profile} className="block text-blue-600 hover:underline"> <Link2Icon className="social-logo"/>Portfolio URL</a>
             </div>
             <div className="stats md:w-3/4"> {/* p-4 rounded-lg md:container md:mx-auto w-full */}
                 <div aria-label="activity calander" className="md:container bg-white p-4 rounded-lg shadow mx-0 w-full  md:w-full">
@@ -207,7 +217,7 @@ return (
                     <PieChart >
         
                     <Pie
-                    data={difficultyData}
+                    data={user.data.difficultystats}
                     cx="50%"
                     cy="50%"
                     labelLine={false}

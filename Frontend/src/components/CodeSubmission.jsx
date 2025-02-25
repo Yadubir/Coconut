@@ -253,6 +253,7 @@ const CodeSubmission = () => {
       </Link> */}
 
       {/* Problem Description Section */}
+
       <div className="w-1/2 bg-gray-100 p-8 border-r border-gray-300">
         <h1 className="text-2xl font-bold mb-4 pr-96">{problem.title}</h1>
         <div className="h-[calc(100vh-120px)] overflow-y-auto">
@@ -287,8 +288,8 @@ const CodeSubmission = () => {
             ))}
           </div>
         </div>
-      </div>
-      
+        </div>
+
       {/* Code Editor Section */}
       <div className="w-1/2 p-8 flex flex-col">
         <div className="flex justify-between items-center mb-4">

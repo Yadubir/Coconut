@@ -50,7 +50,7 @@ router.post("/", protect, async (req, res) => {
       problemId 
     } = req.body;
     const userId = req.user.id;
-    console.log(`The user id is ${userId}`);
+    // console.log(`The user id is ${userId}`);
   
     if (!sourceCode || !languageId || !testCases || !problemId) {
       return res.status(400).json({ message: "All fields are required" });
@@ -134,7 +134,7 @@ router.post("/", protect, async (req, res) => {
         return res.status(404).json({ message: "User not found" });
       }
   
-      res.status(200).json({ problemsSolved: user.problemsSolved });
+      res.status(200).json({ problemsSolved: user.problemsSolved});
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Error fetching problems solved", error: error.message });

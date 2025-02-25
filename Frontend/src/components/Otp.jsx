@@ -24,7 +24,7 @@ const Otp = () => {
       });
       if (res.status === 200) {
         alert("Email verified successfully");
-        navigate("/homepage");
+        navigate("/");
       }
     } catch (error) {
       console.log("OTP Verification failed:", error.message);
