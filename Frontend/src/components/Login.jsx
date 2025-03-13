@@ -2,58 +2,80 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast';
-
+import { FcGoogle } from "react-icons/fc"
+import { useGoogleLogin } from '@react-oauth/google';
+import { useGoogleOneTapLogin } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode";
 export default function Signup() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const navigate = useNavigate();
-    const [loggedIn, setLoggedIn] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [openDialogue, setOpenDialogue] = useState(false);
 
-    const signinHandler = async (e) => {
-        e.preventDefault();
-        try {
-            const res = await axios.post("http://localhost:3000/api/auth/login", {email, password}, {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                withCredentials: true
-            });
-            if(res.status === 200) {
-              localStorage.setItem("token", res.data.token);
-                notifyLogin();
-                setLoggedIn(true);
-                setTimeout(() => {
-                    navigate("/", { state: { loggedIn: true } });
-                }, 1000);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    const notify = () => toast('Email sent successfully');
-    const notifyLogin = () => toast('Signin successful', {duration: 2000});
-
-    const handleForgotPassword = async (e) => {
-      e.preventDefault();
-      try {
-        const res = await axios.post("http://localhost:3000/api/auth/forgotpass", {email}, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true
-        });
-        console.log(res.message);
-        if(res.status === 200) {
-          notify();
-          // navigate("resetpass");
-          // alert("Email sent successfully");
-        }
-      } catch (error) {
-        console.log(error);
+  const signinHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post("http://localhost:3000/api/auth/login", { email, password }, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true
+      });
+      if (res.status === 200) {
+        localStorage.setItem("token", res.data.token);
+        notifyLogin();
+        setLoggedIn(true);
+        setTimeout(() => {
+          navigate("/", { state: { loggedIn: true } });
+        }, 1000);
       }
-    };
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
+  const notify = () => toast('Email sent successfully');
+  const notifyLogin = () => toast('Signin successful', { duration: 2000 });
+
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post("http://localhost:3000/api/auth/forgotpass", { email }, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true
+      });
+      console.log(res.message);
+      if (res.status === 200) {
+        notify();
+        // navigate("resetpass");
+        // alert("Email sent successfully");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // Google login handler
+  useGoogleOneTapLogin({
+    onSuccess: credentialResponse => {
+      const token = credentialResponse.credential;
+
+      const decodedData = jwtDecode(token);
+      console.log(decodedData);
+      if (decodedData.email) {
+        setEmail(decodedData.email);
+      }
+      setPassword("");
+
+      localStorage.setItem("token", token);
+      navigate("/", { state: { loggedIn: true } });
+    },
+    onError: () => {
+      console.log('Login Failed');
+    },
+  });
   return (
     <div className="form-container sign-in-container">
       <Toaster />
@@ -61,8 +83,13 @@ export default function Signup() {
         <h1>Sign in</h1>
         <div className="social-container">
           <a href="#" className="social">
-            <i className="fab fa-google-plus-g" />
+            <i className="fab fa-google" />
+            <FcGoogle size={40}
+              onClick={() => setOpenDialogue(true)}
+            />
+            
           </a>
+          
           {/* <a href="#" className="social">
             <i className="fab fa-linkedin-in" />
           </a> */}
